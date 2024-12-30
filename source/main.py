@@ -3,6 +3,7 @@ import os
 import cv2 as cv
 import easyocr
 from deep_translator import DeeplTranslator
+from dotenv import dotenv_values
 
 from utils import are_images_similar, format_timestamp
 
@@ -14,6 +15,8 @@ data_from_frames = {}
 frame_number = 1
 prev_frame = None
 font = cv.FONT_HERSHEY_PLAIN
+config = dotenv_values('../.env')
+print(config.get('DEEP_L_APIKEY'))
 
 if not os.path.exists('../frames'):
     os.makedirs('../frames')
@@ -57,7 +60,11 @@ cv.destroyAllWindows()
 
 file = open('../subtitle/sub.srt', 'w')
 for number, value in data_from_frames.items():
-    translated_text = DeeplTranslator(api_key=, source='ja', target='en', use_free_api=True).translate(value['text'])
+    translated_text = DeeplTranslator(
+        api_key=config.get('DEEP_L_APIKEY'),
+        source='ja',
+        target='en',
+        use_free_api=True).translate(value['text'])
     file.write(str(number))
     file.write('\n')
     file.write(f"{value['timestamp_start']} --> {value['timestamp_end']} \n")

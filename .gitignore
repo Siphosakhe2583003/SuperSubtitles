@@ -1,2 +1,9 @@
 # environment variable
 .env
+
+# processed files
+./frames/
+
+# videos files
+./videos/
+
