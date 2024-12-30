@@ -3,6 +3,7 @@ import os
 import cv2 as cv
 import easyocr
 from deep_translator import DeeplTranslator
+
 from utils import are_images_similar, format_timestamp
 
 reader = easyocr.Reader(['ja'])
@@ -56,10 +57,11 @@ cv.destroyAllWindows()
 
 file = open('../subtitle/sub.srt', 'w')
 for number, value in data_from_frames.items():
+    translated_text = DeeplTranslator(api_key=, source='ja', target='en', use_free_api=True).translate(value['text'])
     file.write(str(number))
     file.write('\n')
     file.write(f"{value['timestamp_start']} --> {value['timestamp_end']} \n")
-    file.write(value['text'])
+    file.write(translated_text)
     file.write('\n')
     file.write('\n')
 
